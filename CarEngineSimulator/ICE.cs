@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CarEngineSimulator
 {
@@ -6,6 +7,9 @@ namespace CarEngineSimulator
     {
         private float _curTemp = 0;
         private bool _isWorking = false;
+
+        public override event Action OnUpdate;
+
         public override float EngineTemp => _curTemp; //Текущая температура
 
         public override float MaxTemp => _t; //Температура перегрева
@@ -24,24 +28,29 @@ namespace CarEngineSimulator
         }
         public override void Start(float TAir)
         {
+            _isWorking = true;
+            _curTemp = TAir;
+
             float a, Vh, Vc, M, V;
+            
+            M = _m[0];
+            V = _v[0];
 
-            for (int i = 0; i < _m.Count; i++)
+            for (int i = 0; i < _m.Count - 1; i++)
             {
-                M = _m[i];
-                V = _v[i];
-
                 while (V < _v[i + 1])
                 {
-                    a = M * _i;
+                    if (!_isWorking) return;
+
+                    a = M * _i; //Ускорение
                     Vh = M * _hm + V * V * _hv;
                     Vc = _c * (TAir - _curTemp);
 
-                    _curTemp += Vh - Vc;
+                    _curTemp += Vh + Vc;
                     V += a;
                     M = (V - _v[i]) * (_m[i + 1] - _m[i]) / (_v[i + 1] - _v[i]) + _m[i];
 
-                    if (!_isWorking) return;
+                    OnUpdate?.Invoke();
                 }
             }
         }

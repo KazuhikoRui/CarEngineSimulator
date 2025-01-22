@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine.cs" />
+    <Compile Include="ICE.cs" />
+    <Compile Include="ICEStand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

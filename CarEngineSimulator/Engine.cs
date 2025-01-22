@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarEngineSimulator
 {
@@ -22,5 +19,7 @@ namespace CarEngineSimulator
 
         public abstract void Start(float TAir); //Метод запуска двигателя
         public abstract void Stop(); //Метод остановки двигателя
+
+        public abstract event Action OnUpdate; //События обновления показателей
     }
 }
